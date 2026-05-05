@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cursos — Escuela Internacional de Idiomas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --navy:#0d1f3c; --navy-light:#1a3260; --gold:#b8862a; --gold-light:#d4a84b;
+            --cream:#faf8f3; --white:#ffffff; --text-mid:#4a5568; --text-light:#8a94a6; --border:#e8e2d6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--cream); color:#1a1a2e; min-height:100vh; }
+
+        nav {
+            background:var(--white); border-bottom:1px solid var(--border);
+            padding:0 4rem; display:flex; justify-content:space-between; align-items:center;
+            height:68px; position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,0,0,0.04);
+        }
+        .brand { text-decoration:none; }
+        .brand-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--navy); line-height:1; }
+        .brand-sub { font-size:0.57rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+        .nav-links { display:flex; gap:0; list-style:none; height:100%; align-items:center; }
+        .nav-links li { height:100%; display:flex; align-items:center; }
+        .nav-links a {
+            color:var(--text-mid); text-decoration:none; font-size:0.84rem; font-weight:500;
+            padding:0 1.2rem; height:100%; display:flex; align-items:center;
+            border-bottom:2px solid transparent; transition:all 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color:var(--navy); border-bottom-color:var(--gold); }
+        .nav-cta {
+            background:var(--navy) !important; color:#fff !important; border-radius:6px !important;
+            padding:0.55rem 1.3rem !important; height:auto !important; border-bottom:none !important; margin-left:0.5rem;
+        }
+        .nav-cta:hover { background:var(--navy-light) !important; }
+
+        .page-header {
+            background:var(--white); border-bottom:1px solid var(--border);
+            padding:2.5rem 4rem; display:flex; justify-content:space-between; align-items:flex-end;
+            animation:fadeUp 0.5s ease both;
+        }
+        .page-header-left { display:flex; flex-direction:column; gap:0.4rem; }
+        .breadcrumb-nav { display:flex; align-items:center; gap:0.5rem; font-size:0.75rem; color:var(--text-light); margin-bottom:0.5rem; }
+        .breadcrumb-nav a { color:var(--gold); text-decoration:none; }
+        .breadcrumb-nav a:hover { text-decoration:underline; }
+        .page-title { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:700; color:var(--navy); letter-spacing:-0.02em; }
+        .page-count { font-size:0.82rem; color:var(--text-light); }
+        .btn-gold {
+            background:var(--gold); color:#fff; text-decoration:none; padding:0.7rem 1.6rem;
+            border-radius:8px; font-size:0.85rem; font-weight:600; transition:all 0.2s;
+            border:none; cursor:pointer; white-space:nowrap;
+        }
+        .btn-gold:hover { background:var(--gold-light); color:#fff; transform:translateY(-2px); box-shadow:0 6px 20px rgba(184,134,42,0.3); }
+
+        /* Filter bar */
+        .filter-bar {
+            padding:1.25rem 4rem; background:var(--white);
+            border-bottom:1px solid var(--border);
+            display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;
+        }
+        .filter-label { font-size:0.75rem; font-weight:600; color:var(--text-light); text-transform:uppercase; letter-spacing:0.08em; margin-right:0.25rem; }
+        .filter-chip {
+            padding:0.35rem 1rem; border-radius:100px; border:1px solid var(--border);
+            font-size:0.78rem; font-weight:500; color:var(--text-mid); cursor:pointer;
+            transition:all 0.2s; background:transparent;
+        }
+        .filter-chip:hover, .filter-chip.active { background:var(--navy); color:#fff; border-color:var(--navy); }
+
+        /* Table */
+        .table-wrapper { padding:2rem 4rem; }
+        .table-card {
+            background:var(--white); border:1px solid var(--border);
+            border-radius:14px; overflow:hidden;
+            box-shadow:0 2px 16px rgba(0,0,0,0.03);
+            animation:fadeUp 0.6s ease 0.1s both;
+        }
+        table { width:100%; border-collapse:collapse; }
+        thead { background:rgba(13,31,60,0.02); }
+        thead th {
+            font-size:0.68rem; font-weight:600; color:var(--text-light);
+            text-transform:uppercase; letter-spacing:0.12em;
+            padding:1rem 1.5rem; text-align:left; border-bottom:1px solid var(--border);
+        }
+        tbody tr {
+            border-bottom:1px solid rgba(232,226,214,0.6);
+            transition:background 0.15s;
+            animation:fadeIn 0.4s ease both;
+        }
+        tbody tr:last-child { border-bottom:none; }
+        tbody tr:hover { background:rgba(13,31,60,0.02); }
+        tbody td { padding:1.1rem 1.5rem; font-size:0.88rem; color:var(--text-mid); vertical-align:middle; }
+        .td-idioma { font-weight:600; color:var(--navy); font-size:0.92rem; }
+        .badge-nivel {
+            display:inline-block; padding:0.25rem 0.75rem; border-radius:100px;
+            font-size:0.72rem; font-weight:600; letter-spacing:0.04em;
+        }
+        .nivel-a { background:rgba(74,222,128,0.1); color:#16a34a; border:1px solid rgba(74,222,128,0.3); }
+        .nivel-b { background:rgba(250,189,66,0.1); color:#d97706; border:1px solid rgba(250,189,66,0.3); }
+        .nivel-c { background:rgba(239,68,68,0.1); color:#dc2626; border:1px solid rgba(239,68,68,0.3); }
+        .horario-pill {
+            display:inline-flex; align-items:center; gap:0.3rem;
+            font-size:0.78rem; color:var(--text-mid);
+        }
+        .precio-val { font-weight:600; color:var(--navy); font-variant-numeric:tabular-nums; }
+
+        .empty-state {
+            text-align:center; padding:5rem 2rem; color:var(--text-light);
+        }
+        .empty-state h3 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--navy); margin-bottom:0.5rem; }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/inicio}" class="brand">
+        <div class="brand-name">Escuela Internacional de Idiomas</div>
+        <div class="brand-sub">Est. 1998 · Madrid</div>
+    </a>
+    <ul class="nav-links">
+        <li><a th:href="@{/listadoCursos}" class="active">Cursos</a></li>
+        <li><a th:href="@{/listadoInscripciones}">Inscripciones</a></li>
+        <li><a th:href="@{/altaCurso}" class="nav-cta">+ Nuevo curso</a></li>
+    </ul>
+</nav>
+
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="breadcrumb-nav">
+            <a th:href="@{/inicio}">Inicio</a> › Cursos
+        </div>
+        <div class="page-title">Catálogo de cursos</div>
+        <div class="page-count" th:text="${#lists.size(cursos)} + ' cursos disponibles'">0 cursos</div>
+    </div>
+    <a th:href="@{/altaCurso}" class="btn-gold">+ Nuevo curso</a>
+</div>
+
+<div class="filter-bar">
+    <span class="filter-label">Filtrar por nivel:</span>
+    <button class="filter-chip active" onclick="filterTable('todos', this)">Todos</button>
+    <button class="filter-chip" onclick="filterTable('A1', this)">A1</button>
+    <button class="filter-chip" onclick="filterTable('A2', this)">A2</button>
+    <button class="filter-chip" onclick="filterTable('B1', this)">B1</button>
+    <button class="filter-chip" onclick="filterTable('B2', this)">B2</button>
+    <button class="filter-chip" onclick="filterTable('C1', this)">C1</button>
+    <button class="filter-chip" onclick="filterTable('C2', this)">C2</button>
+</div>
+
+<div class="table-wrapper">
+    <div th:if="${#lists.isEmpty(cursos)}" class="empty-state">
+        <h3>No hay cursos registrados</h3>
+        <p>Añade el primero usando el botón de arriba.</p>
+    </div>
+    <div class="table-card" th:if="${!#lists.isEmpty(cursos)}">
+        <table id="cursosTable">
+            <thead>
+                <tr>
+                    <th>Idioma</th>
+                    <th>Nivel</th>
+                    <th>Horario</th>
+                    <th>Precio / mes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="curso : ${cursos}" th:attr="data-nivel=${curso.nivel}">
+                    <td class="td-idioma" th:text="${curso.idioma}"></td>
+                    <td>
+                        <span th:text="${curso.nivel}"
+                              th:classappend="${#strings.startsWith(curso.nivel,'A')} ? 'nivel-a' : (${#strings.startsWith(curso.nivel,'B')} ? 'nivel-b' : 'nivel-c')"
+                              class="badge-nivel"></span>
+                    </td>
+                    <td>
+                        <span class="horario-pill">
+                            <span th:text="${curso.horario == 'Mañana'} ? '🌅' : (${curso.horario == 'Tarde'} ? '🌤️' : '🌙')"></span>
+                            <span th:text="${curso.horario}"></span>
+                        </span>
+                    </td>
+                    <td class="precio-val" th:text="${curso.precio} + ' €'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function filterTable(nivel, btn) {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#cursosTable tbody tr').forEach(row => {
+        row.style.display = (nivel === 'todos' || row.dataset.nivel === nivel) ? '' : 'none';
+    });
+}
+</script>
+</body>
+</html>

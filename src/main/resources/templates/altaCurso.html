@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Nuevo Curso — Escuela Internacional de Idiomas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --navy:#0d1f3c; --navy-light:#1a3260; --gold:#b8862a; --gold-light:#d4a84b;
+            --cream:#faf8f3; --white:#ffffff; --text-mid:#4a5568; --text-light:#8a94a6; --border:#e8e2d6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--cream); color:#1a1a2e; min-height:100vh; }
+
+        nav {
+            background:var(--white); border-bottom:1px solid var(--border);
+            padding:0 4rem; display:flex; justify-content:space-between; align-items:center;
+            height:68px; position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,0,0,0.04);
+        }
+        .brand { text-decoration:none; }
+        .brand-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--navy); line-height:1; }
+        .brand-sub { font-size:0.57rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+        .nav-links { display:flex; gap:0; list-style:none; height:100%; align-items:center; }
+        .nav-links li { height:100%; display:flex; align-items:center; }
+        .nav-links a {
+            color:var(--text-mid); text-decoration:none; font-size:0.84rem; font-weight:500;
+            padding:0 1.2rem; height:100%; display:flex; align-items:center;
+            border-bottom:2px solid transparent; transition:all 0.2s;
+        }
+        .nav-links a:hover { color:var(--navy); border-bottom-color:var(--gold); }
+
+        /* Layout */
+        .form-layout {
+            display:grid; grid-template-columns:1fr 380px; gap:0; min-height:calc(100vh - 68px);
+        }
+        .form-main {
+            padding:3.5rem 4rem; animation:fadeUp 0.6s ease both;
+        }
+        .form-sidebar {
+            background:var(--navy); padding:3.5rem 2.5rem;
+            display:flex; flex-direction:column; gap:2rem;
+            animation:fadeLeft 0.7s ease 0.1s both;
+        }
+        .back-link {
+            display:inline-flex; align-items:center; gap:0.4rem;
+            font-size:0.78rem; color:var(--text-light); text-decoration:none; margin-bottom:2rem;
+            transition:color 0.2s;
+        }
+        .back-link:hover { color:var(--gold); }
+        .form-eyebrow { font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.6rem; }
+        .form-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--navy); letter-spacing:-0.02em; margin-bottom:0.5rem; }
+        .form-desc { font-size:0.88rem; color:var(--text-light); line-height:1.65; margin-bottom:2.5rem; }
+
+        /* Fields */
+        .field { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1.5rem; }
+        .field label { font-size:0.74rem; font-weight:600; color:var(--text-mid); text-transform:uppercase; letter-spacing:0.1em; }
+        .field input, .field select {
+            background:var(--white); border:1.5px solid var(--border); border-radius:9px;
+            padding:0.85rem 1rem; color:#1a1a2e; font-family:'DM Sans',sans-serif;
+            font-size:0.9rem; outline:none; transition:all 0.2s; width:100%;
+            appearance:none;
+        }
+        .field input:focus, .field select:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,134,42,0.1); }
+        .field input::placeholder { color:var(--text-light); }
+        .field-row { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+
+        /* Horario selector */
+        .horario-opts { display:grid; grid-template-columns:repeat(3,1fr); gap:0.75rem; }
+        .horario-opt { display:none; }
+        .horario-opt + label {
+            border:1.5px solid var(--border); border-radius:9px; padding:0.85rem;
+            text-align:center; cursor:pointer; transition:all 0.2s; font-size:0.82rem; font-weight:500; color:var(--text-mid);
+            display:flex; flex-direction:column; align-items:center; gap:0.3rem;
+        }
+        .horario-opt:checked + label { border-color:var(--navy); background:var(--navy); color:#fff; }
+        .horario-opt + label:hover { border-color:var(--gold); }
+        .horario-emoji { font-size:1.3rem; }
+
+        .btn-submit {
+            width:100%; background:var(--navy); color:#fff; border:none;
+            padding:1rem; border-radius:9px; font-size:0.92rem; font-weight:600;
+            font-family:'DM Sans',sans-serif; cursor:pointer; transition:all 0.25s;
+            margin-top:0.5rem; letter-spacing:0.02em;
+        }
+        .btn-submit:hover { background:var(--navy-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(13,31,60,0.2); }
+
+        /* Sidebar content */
+        .sidebar-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:#fff; margin-bottom:0.25rem; }
+        .sidebar-sub { font-size:0.78rem; color:rgba(255,255,255,0.45); }
+        .divider { height:1px; background:rgba(255,255,255,0.1); }
+        .level-list { display:flex; flex-direction:column; gap:0.75rem; }
+        .level-item { display:flex; align-items:center; gap:0.75rem; }
+        .level-badge {
+            width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+            font-size:0.72rem; font-weight:700; flex-shrink:0;
+        }
+        .la { background:rgba(74,222,128,0.15); color:#4ade80; }
+        .lb { background:rgba(250,189,66,0.15); color:#fbbf24; }
+        .lc { background:rgba(239,68,68,0.15); color:#f87171; }
+        .level-desc { font-size:0.78rem; color:rgba(255,255,255,0.55); line-height:1.4; }
+        .level-name { color:rgba(255,255,255,0.85); font-weight:500; font-size:0.82rem; }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeLeft { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/inicio}" class="brand">
+        <div class="brand-name">Escuela Internacional de Idiomas</div>
+        <div class="brand-sub">Est. 1998 · Madrid</div>
+    </a>
+    <ul class="nav-links">
+        <li><a th:href="@{/listadoCursos}">Cursos</a></li>
+        <li><a th:href="@{/listadoInscripciones}">Inscripciones</a></li>
+    </ul>
+</nav>
+
+<div class="form-layout">
+    <div class="form-main">
+        <a th:href="@{/listadoCursos}" class="back-link">← Volver al catálogo</a>
+        <div class="form-eyebrow">Gestión de cursos</div>
+        <div class="form-title">Nuevo curso</div>
+        <p class="form-desc">Añade un nuevo idioma al catálogo. Todos los campos son obligatorios.</p>
+
+        <form th:action="@{/altaCurso}" th:object="${curso}" method="post">
+            <div class="field">
+                <label for="idioma">Idioma</label>
+                <input type="text" id="idioma" th:field="*{idioma}" placeholder="Ej: Inglés, Francés, Mandarín..."/>
+            </div>
+            <div class="field">
+                <label>Nivel (Marco Europeo)</label>
+                <select th:field="*{nivel}">
+                    <option value="">Seleccionar nivel...</option>
+                    <option value="A1">A1 — Acceso (Principiante)</option>
+                    <option value="A2">A2 — Plataforma (Básico)</option>
+                    <option value="B1">B1 — Umbral (Intermedio)</option>
+                    <option value="B2">B2 — Avanzado (Intermedio alto)</option>
+                    <option value="C1">C1 — Dominio operativo eficaz</option>
+                    <option value="C2">C2 — Maestría</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Horario</label>
+                <div class="horario-opts">
+                    <input type="radio" name="horario" id="h1" value="Mañana" class="horario-opt" th:field="*{horario}"/>
+                    <label for="h1"><span class="horario-emoji">🌅</span>Mañana</label>
+                    <input type="radio" name="horario" id="h2" value="Tarde" class="horario-opt" th:field="*{horario}"/>
+                    <label for="h2"><span class="horario-emoji">🌤️</span>Tarde</label>
+                    <input type="radio" name="horario" id="h3" value="Noche" class="horario-opt" th:field="*{horario}"/>
+                    <label for="h3"><span class="horario-emoji">🌙</span>Noche</label>
+                </div>
+            </div>
+            <div class="field">
+                <label for="precio">Precio mensual (€)</label>
+                <input type="number" id="precio" th:field="*{precio}" placeholder="0.00" step="0.01" min="0"/>
+            </div>
+            <button type="submit" class="btn-submit">Guardar curso →</button>
+        </form>
+    </div>
+
+    <div class="form-sidebar">
+        <div>
+            <div class="sidebar-title">Niveles MCERL</div>
+            <div class="sidebar-sub">Marco Común Europeo de Referencia para las Lenguas</div>
+        </div>
+        <div class="divider"></div>
+        <div class="level-list">
+            <div class="level-item"><div class="level-badge la">A1</div><div><div class="level-name">Acceso</div><div class="level-desc">Comprende frases simples y cotidianas.</div></div></div>
+            <div class="level-item"><div class="level-badge la">A2</div><div><div class="level-name">Plataforma</div><div class="level-desc">Describe entorno inmediato y necesidades básicas.</div></div></div>
+            <div class="level-item"><div class="level-badge lb">B1</div><div><div class="level-name">Umbral</div><div class="level-desc">Maneja situaciones habituales de viaje o trabajo.</div></div></div>
+            <div class="level-item"><div class="level-badge lb">B2</div><div><div class="level-name">Avanzado</div><div class="level-desc">Interactúa con hablantes nativos con fluidez.</div></div></div>
+            <div class="level-item"><div class="level-badge lc">C1</div><div><div class="level-name">Dominio operativo</div><div class="level-desc">Expresa ideas con fluidez y espontaneidad.</div></div></div>
+            <div class="level-item"><div class="level-badge lc">C2</div><div><div class="level-name">Maestría</div><div class="level-desc">Comprende prácticamente todo lo que oye y lee.</div></div></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

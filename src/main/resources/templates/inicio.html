@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Escuela Internacional de Idiomas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --navy: #0d1f3c;
+            --navy-light: #1a3260;
+            --gold: #b8862a;
+            --gold-light: #d4a84b;
+            --cream: #faf8f3;
+            --white: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-mid: #4a5568;
+            --text-light: #8a94a6;
+            --border: #e8e2d6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text-dark); overflow-x:hidden; }
+
+        .top-strip {
+            background:var(--navy); color:rgba(255,255,255,0.65);
+            font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase;
+            text-align:center; padding:0.5rem 1rem;
+        }
+        .top-strip b { color:var(--gold-light); }
+
+        nav {
+            background:var(--white); border-bottom:1px solid var(--border);
+            padding:0 4rem; display:flex; justify-content:space-between;
+            align-items:center; height:68px; position:sticky; top:0; z-index:100;
+            box-shadow:0 2px 20px rgba(0,0,0,0.04);
+        }
+        .brand { text-decoration:none; }
+        .brand-name { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:700; color:var(--navy); line-height:1; }
+        .brand-sub { font-size:0.58rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-weight:500; }
+        .nav-links { display:flex; gap:0; list-style:none; height:100%; align-items:center; }
+        .nav-links li { height:100%; display:flex; align-items:center; }
+        .nav-links a {
+            color:var(--text-mid); text-decoration:none; font-size:0.84rem; font-weight:500;
+            padding:0 1.2rem; height:100%; display:flex; align-items:center;
+            border-bottom:2px solid transparent; transition:all 0.2s;
+        }
+        .nav-links a:hover { color:var(--navy); border-bottom-color:var(--gold); }
+        .nav-cta {
+            background:var(--navy) !important; color:#fff !important;
+            border-radius:6px !important; padding:0.55rem 1.3rem !important;
+            height:auto !important; border-bottom:none !important; margin-left:0.5rem;
+            transition:background 0.2s !important;
+        }
+        .nav-cta:hover { background:var(--navy-light) !important; }
+
+        /* Hero */
+        .hero {
+            background:var(--white); position:relative; overflow:hidden;
+            display:grid; grid-template-columns:1.1fr 0.9fr; min-height:520px;
+        }
+        .hero-left {
+            padding:5rem 3rem 5rem 4rem;
+            display:flex; flex-direction:column; justify-content:center;
+            animation:fadeUp 0.7s ease both;
+        }
+        .hero-right {
+            background:var(--cream);
+            border-left:1px solid var(--border);
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            gap:1.75rem; padding:4rem 3rem;
+            animation:fadeLeft 0.8s ease 0.15s both;
+            position:relative;
+        }
+        .hero-right::before {
+            content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+            background-image:radial-gradient(var(--border) 1px, transparent 1px);
+            background-size:24px 24px; opacity:0.5; pointer-events:none;
+        }
+        .badge {
+            display:inline-flex; align-items:center; gap:0.4rem;
+            background:rgba(184,134,42,0.08); border:1px solid rgba(184,134,42,0.25);
+            color:var(--gold); padding:0.3rem 0.9rem; border-radius:100px;
+            font-size:0.7rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+            margin-bottom:1.5rem; width:fit-content;
+        }
+        .hero h1 {
+            font-family:'Playfair Display',serif; font-size:clamp(2.2rem,3.5vw,3.5rem);
+            font-weight:700; line-height:1.1; letter-spacing:-0.02em; color:var(--navy);
+            margin-bottom:1.25rem;
+        }
+        .hero h1 em { font-style:italic; color:var(--gold); }
+        .hero-desc {
+            font-size:0.97rem; color:var(--text-mid); line-height:1.75;
+            max-width:440px; font-weight:300; margin-bottom:2.5rem;
+        }
+        .hero-btns { display:flex; gap:0.85rem; flex-wrap:wrap; }
+        .btn-main {
+            background:var(--navy); color:#fff; text-decoration:none;
+            padding:0.8rem 2rem; border-radius:8px; font-size:0.88rem; font-weight:500;
+            border:2px solid var(--navy); transition:all 0.25s; letter-spacing:0.01em;
+        }
+        .btn-main:hover { background:var(--navy-light); border-color:var(--navy-light); color:#fff; transform:translateY(-2px); box-shadow:0 8px 24px rgba(13,31,60,0.2); }
+        .btn-outline {
+            background:transparent; color:var(--navy); text-decoration:none;
+            padding:0.8rem 2rem; border-radius:8px; font-size:0.88rem; font-weight:500;
+            border:2px solid var(--border); transition:all 0.25s;
+        }
+        .btn-outline:hover { border-color:var(--navy); color:var(--navy); transform:translateY(-2px); }
+
+        /* Photo + stats */
+        .photo-frame {
+            position:relative; width:140px; height:140px;
+        }
+        .photo-frame::before {
+            content:''; position:absolute; top:-10px; left:-10px; right:10px; bottom:10px;
+            border:2px solid var(--gold); border-radius:50%; opacity:0.25;
+        }
+        .photo-frame img {
+            width:140px; height:140px; border-radius:50%; object-fit:cover;
+            border:4px solid var(--white); box-shadow:0 10px 32px rgba(13,31,60,0.12);
+        }
+        .photo-info { text-align:center; }
+        .photo-info strong { display:block; font-size:0.95rem; color:var(--navy); font-weight:600; }
+        .photo-info span { font-size:0.76rem; color:var(--text-light); }
+        .stats { display:flex; gap:1.5rem; }
+        .stat-box { text-align:center; }
+        .stat-num { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:700; color:var(--navy); line-height:1; }
+        .stat-lbl { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-light); margin-top:0.2rem; }
+        .stat-sep { width:1px; background:var(--border); align-self:stretch; }
+
+        /* Strip */
+        .features-strip {
+            background:var(--navy); padding:1.75rem 4rem;
+            display:flex; justify-content:center; gap:4rem; flex-wrap:wrap;
+        }
+        .feat { display:flex; align-items:center; gap:0.75rem; color:rgba(255,255,255,0.65); font-size:0.8rem; }
+        .feat-icon { font-size:1.2rem; }
+        .feat strong { display:block; color:#fff; font-size:0.83rem; margin-bottom:0.05rem; }
+
+        /* Cards section */
+        .cards-section { padding:5rem 4rem; }
+        .sec-label { font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:0.65rem; }
+        .sec-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--navy); letter-spacing:-0.02em; margin-bottom:2.5rem; }
+        .cards-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem; }
+        .page-card {
+            background:var(--white); border:1px solid var(--border);
+            border-radius:14px; padding:1.75rem 1.5rem; text-decoration:none;
+            display:flex; flex-direction:column; gap:0.7rem;
+            transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            position:relative; overflow:hidden;
+        }
+        .page-card::after {
+            content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+            background:linear-gradient(90deg,var(--navy),var(--gold));
+            transform:scaleX(0); transform-origin:left; transition:transform 0.35s ease;
+        }
+        .page-card:hover { transform:translateY(-7px); box-shadow:0 20px 40px rgba(13,31,60,0.1); border-color:transparent; }
+        .page-card:hover::after { transform:scaleX(1); }
+        .card-num { font-size:0.68rem; font-weight:600; color:var(--text-light); letter-spacing:0.1em; }
+        .card-ico { width:42px; height:42px; border-radius:10px; background:rgba(13,31,60,0.05); display:flex; align-items:center; justify-content:center; font-size:1.15rem; }
+        .card-ttl { font-size:0.93rem; font-weight:600; color:var(--navy); line-height:1.3; }
+        .card-dsc { font-size:0.77rem; color:var(--text-light); line-height:1.55; }
+        .card-arr { margin-top:auto; font-size:0.78rem; color:var(--gold); font-weight:600; display:flex; align-items:center; gap:0.3rem; transition:gap 0.2s; }
+        .page-card:hover .card-arr { gap:0.6rem; }
+
+        footer {
+            background:var(--navy); color:rgba(255,255,255,0.45);
+            text-align:center; padding:1.75rem 2rem; font-size:0.76rem;
+            border-top:3px solid var(--gold);
+        }
+        footer b { color:rgba(255,255,255,0.75); }
+
+        .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeLeft { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+    </style>
+</head>
+<body>
+
+<div class="top-strip">
+    Acreditados por el MCERL &nbsp;·&nbsp; <b>+20 idiomas disponibles</b> &nbsp;·&nbsp; Formación presencial y online
+</div>
+
+<nav>
+    <a th:href="@{/inicio}" class="brand">
+        <div class="brand-name">Escuela Internacional de Idiomas</div>
+        <div class="brand-sub">Est. 1998 · Madrid</div>
+    </a>
+    <ul class="nav-links">
+        <li><a th:href="@{/listadoCursos}">Cursos</a></li>
+        <li><a th:href="@{/listadoInscripciones}">Inscripciones</a></li>
+        <li><a th:href="@{/altaCurso}" class="nav-cta">+ Nuevo curso</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-left">
+        <span class="badge">✦ Plataforma de gestión académica</span>
+        <h1>El idioma que<br/>aprendes hoy,<br/><em>te define mañana.</em></h1>
+        <p class="hero-desc">Gestiona cursos, alumnos e inscripciones desde una plataforma diseñada para instituciones de excelencia. Rápida, clara y profesional.</p>
+        <div class="hero-btns">
+            <a th:href="@{/listadoCursos}" class="btn-main">Ver catálogo de cursos</a>
+            <a th:href="@{/altaInscripcion}" class="btn-outline">Nueva inscripción</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="photo-frame">
+            <img src="/img/foto.jpg" alt="Michael Criollo"/>
+        </div>
+        <div class="photo-info">
+            <strong>Michael Criollo Guaita</strong>
+            <span>DAW · IES Pío Baroja</span>
+        </div>
+        <div class="stats">
+            <div class="stat-box"><div class="stat-num">20+</div><div class="stat-lbl">Idiomas</div></div>
+            <div class="stat-sep"></div>
+            <div class="stat-box"><div class="stat-num">A1–C2</div><div class="stat-lbl">Niveles</div></div>
+            <div class="stat-sep"></div>
+            <div class="stat-box"><div class="stat-num">10+</div><div class="stat-lbl">Alumnos</div></div>
+        </div>
+    </div>
+</section>
+
+<div class="features-strip">
+    <div class="feat"><div class="feat-icon">🏛️</div><div><strong>Certificaciones oficiales</strong>Cambridge, DELF, DELE, Goethe</div></div>
+    <div class="feat"><div class="feat-icon">🌍</div><div><strong>Docentes nativos</strong>Más de 30 nacionalidades</div></div>
+    <div class="feat"><div class="feat-icon">📅</div><div><strong>Horarios flexibles</strong>Mañana, tarde y noche</div></div>
+    <div class="feat"><div class="feat-icon">📊</div><div><strong>Seguimiento continuo</strong>Informes de progreso mensuales</div></div>
+</div>
+
+<section class="cards-section">
+    <div class="reveal">
+        <div class="sec-label">Gestión académica</div>
+        <div class="sec-title">¿Qué deseas hacer hoy?</div>
+    </div>
+    <div class="cards-grid">
+        <a th:href="@{/listadoCursos}" class="page-card reveal">
+            <span class="card-num">01</span>
+            <div class="card-ico">📚</div>
+            <div class="card-ttl">Catálogo de cursos</div>
+            <div class="card-dsc">Consulta todos los cursos activos con su nivel y horario.</div>
+            <div class="card-arr">Ver cursos →</div>
+        </a>
+        <a th:href="@{/listadoInscripciones}" class="page-card reveal">
+            <span class="card-num">02</span>
+            <div class="card-ico">👥</div>
+            <div class="card-ttl">Alumnos inscritos</div>
+            <div class="card-dsc">Revisa el listado completo de alumnos e inscripciones.</div>
+            <div class="card-arr">Ver inscripciones →</div>
+        </a>
+        <a th:href="@{/altaCurso}" class="page-card reveal">
+            <span class="card-num">03</span>
+            <div class="card-ico">➕</div>
+            <div class="card-ttl">Crear curso</div>
+            <div class="card-dsc">Añade un nuevo idioma, nivel y horario al catálogo.</div>
+            <div class="card-arr">Crear ahora →</div>
+        </a>
+        <a th:href="@{/altaInscripcion}" class="page-card reveal">
+            <span class="card-num">04</span>
+            <div class="card-ico">✏️</div>
+            <div class="card-ttl">Inscribir alumno</div>
+            <div class="card-dsc">Registra un nuevo alumno y asígnalo a un curso.</div>
+            <div class="card-arr">Inscribir →</div>
+        </a>
+    </div>
+</section>
+
+<footer>
+    <b>Escuela Internacional de Idiomas</b> · Plataforma de gestión académica ·
+    Desarrollado por Michael Criollo Guaita · DAW · IES Pío Baroja
+</footer>
+
+<script>
+    const io = new IntersectionObserver(entries => {
+        entries.forEach((e, i) => { if(e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
