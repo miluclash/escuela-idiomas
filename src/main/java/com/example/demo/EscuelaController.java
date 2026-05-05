@@ -48,7 +48,7 @@ public class EscuelaController {
 	@GetMapping("/altaInscripcion")
 	public String altaInscripcion(Model model) {
 		model.addAttribute("inscripcion", new Inscripcion());
-		  model.addAttribute("cursos", cursoRepository.findAll());
+		model.addAttribute("cursos", cursoRepository.findAll());
 		return "altaInscripcion";
 	}
 	
@@ -60,11 +60,11 @@ public class EscuelaController {
 	}
 	
 	//POST inscripcion
-		@PostMapping("/altaInscripcion")
-		public String guardarInscripcion(@ModelAttribute Inscripcion inscripcion) {
-			inscripcionRepository.save(inscripcion);
-			return "redirect:/listadoInscripciones";
-		}
+	@PostMapping("/altaInscripcion")
+	public String guardarInscripcion(@ModelAttribute Inscripcion inscripcion) {
+		inscripcionRepository.save(inscripcion);
+		return "redirect:/listadoInscripciones";
+	}
 	
 	
 }
