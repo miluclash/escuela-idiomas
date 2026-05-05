@@ -108,32 +108,26 @@ La aplicacion carga automaticamente 10 cursos y 10 inscripciones de ejemplo al a
 ## Capturas de pantalla
 
 ### Pagina de inicio
-![Inicio](capturas/inicio.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/9cbc1cc3-2f1b-4300-9ed2-8afae95a900d" />
 
 
 ### Listado de cursos
-![Cursos](capturas/listadoCursos.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/686f6408-f81d-402a-8040-69011f0dc29a" />
 
 
 ### Listado de inscripciones
-![Inscripciones](capturas/listadoInscripciones.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/68b2859b-1c24-4219-9d36-af8c65b33c04" />
 
 
 ### Alta de curso
-![Alta Curso](capturas/altaCurso.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/0c653ee4-ef76-48ca-b349-64656222b6a0" />
 
 
 ### Alta de inscripcion
-![Alta Inscripcion](capturas/altaInscripcion.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/0d7280f6-0ae1-4060-b2cd-e9986d81e9d0" />
 
 
 ### Pagina de error personalizada
-![Error](capturas/error.png)
 <img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/2592c083-625d-42a6-986a-f5178e1920c9" />
 
 
