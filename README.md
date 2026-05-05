@@ -1,4 +1,3 @@
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/3390d57d-b97b-424e-a1f1-05ef34fa33d8" />
 # Escuela Internacional de Idiomas
 
 Aplicacion web de gestion academica para una escuela de idiomas, desarrollada con Spring Boot, JPA/Hibernate, Thymeleaf y MySQL.
