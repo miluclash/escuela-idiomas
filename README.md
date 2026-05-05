@@ -112,23 +112,24 @@ La aplicacion carga automaticamente 10 cursos y 10 inscripciones de ejemplo al a
 
 
 ### Listado de cursos
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/686f6408-f81d-402a-8040-69011f0dc29a" />
+<img width="1890" height="866" alt="Captura de pantalla 2026-05-05 212241" src="https://github.com/user-attachments/assets/cc0befcd-bc89-4c72-9b9a-32c3ffcf71d7" />
 
 
 ### Listado de inscripciones
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/68b2859b-1c24-4219-9d36-af8c65b33c04" />
+<img width="1893" height="867" alt="Captura de pantalla 2026-05-05 212253" src="https://github.com/user-attachments/assets/2be8111d-e11c-4f1c-9196-e560d7501be5" />
 
 
 ### Alta de curso
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/0c653ee4-ef76-48ca-b349-64656222b6a0" />
+<img width="1887" height="875" alt="Captura de pantalla 2026-05-05 212304" src="https://github.com/user-attachments/assets/93c7ce60-6424-4ba8-b49e-9a4edefe75fa" />
 
 
 ### Alta de inscripcion
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/0d7280f6-0ae1-4060-b2cd-e9986d81e9d0" />
+<img width="1883" height="869" alt="Captura de pantalla 2026-05-05 212320" src="https://github.com/user-attachments/assets/3411a598-3ef9-4d4a-ac0d-f6153ac1b4dc" />
 
 
 ### Pagina de error personalizada
-<img width="1894" height="868" alt="Captura de pantalla 2026-05-05 212230" src="https://github.com/user-attachments/assets/2592c083-625d-42a6-986a-f5178e1920c9" />
+<img width="1900" height="868" alt="Captura de pantalla 2026-05-05 212328" src="https://github.com/user-attachments/assets/00c75241-db91-4508-a853-adc9dc652541" />
+
 
 
 ## Despliegue en Railway
